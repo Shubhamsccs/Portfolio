@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal Portfolio — A notebook of code, craft, and curiosity">
+  <title>My Universe — Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ FLOATING PILL NAVBAR ═══ -->
+  <div class="floating-navbar-wrapper">
+    <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle theme">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.81 .89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/></svg>
+    </button>
+    <nav class="floating-navbar" id="navbar">
+      <button class="nav-pill active" data-page="0">Home</button>
+      <button class="nav-pill" data-page="1">About</button>
+      <button class="nav-pill" data-page="2">Featured</button>
+      <button class="nav-pill" data-page="3">Experience</button>
+      <button class="nav-pill" data-page="4">Education</button>
+      <button class="nav-pill" data-page="5">Skills</button>
+      <button class="nav-pill" data-page="6">Projects</button>
+      <button class="nav-pill" data-page="7">Brain Dump</button>
+  </div>
+
+  <!-- ═══ BOOK VIEWPORT ═══ -->
+  <div class="book-viewport">
+    <div class="book" id="book">
+
+      <!-- Shadow sweep overlay -->
+      <div class="page-shadow-overlay" id="page-shadow"></div>
+
+      <!-- ─── PAGE 1: HOME (Full-Spread) ─── -->
+      <div class="book-page active" data-page="0">
+        <div class="page-full-spread">
+          <div class="hero-left page-content-inner">
+            <h2 class="hero-greeting" id="hero-greeting"></h2>
+            <h1 class="hero-name" id="hero-name"></h1>
+            <div class="hero-tagline" id="hero-tagline"></div>
+            <p class="hero-bio-line" id="hero-bio"></p>
+            <div class="hero-badges" id="hero-badges"></div>
+            <div class="hero-socials" id="hero-socials"></div>
+          </div>
+          <div class="hero-right">
+            <div class="pinned-frame" id="hero-frame">
+              <img src="" alt="Profile photo" id="hero-photo">
+              <!-- Interactive sticky note -->
+              <div class="sticky-note">
+                <span class="status-dot"></span> Available for Hire
+              </div>
+            </div>
+          </div>
+          <div class="page-nav">
+            <span class="page-num">1 / 8</span>
+            <button class="page-arrow" data-dir="next" title="Next page">›</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 2: ABOUT ─── -->
+      <div class="book-page" data-page="1">
+        <div class="page-left">
+          <div class="chapter-number">02</div>
+          <div class="chapter-title">About</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">About Me</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">2 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <div id="about-content"></div>
+            <div class="meta-facts" id="about-meta"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 3: FEATURED ─── -->
+      <div class="book-page" data-page="2">
+        <div class="page-left">
+          <div class="chapter-number">03</div>
+          <div class="chapter-title">Featured Work</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Featured Work</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">3 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <div id="featured-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 4: EXPERIENCE ─── -->
+      <div class="book-page" data-page="3">
+        <div class="page-left">
+          <div class="chapter-number">04</div>
+          <div class="chapter-title">Experience</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Experience</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">4 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <div class="timeline" id="experience-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 5: EDUCATION ─── -->
+      <div class="book-page" data-page="4">
+        <div class="page-left">
+          <div class="chapter-number">05</div>
+          <div class="chapter-title">Education</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Education</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">5 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <!-- Sub-tabs -->
+            <div class="edu-tabs">
+              <button class="edu-tab active" data-tab="degrees">Degree</button>
+              <button class="edu-tab" data-tab="courses">Courses & Certs</button>
+            </div>
+            <div id="education-content" class="timeline"></div>
+            <div id="courses-content" class="courses-grid" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 6: SKILLS ─── -->
+      <div class="book-page" data-page="5">
+        <div class="page-left">
+          <div class="chapter-number">06</div>
+          <div class="chapter-title">Skills</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Technical Skills</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">6 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <div class="skills-grid" id="skills-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 7: PROJECTS ─── -->
+      <div class="book-page" data-page="6">
+        <div class="page-left">
+          <div class="chapter-number">07</div>
+          <div class="chapter-title">Projects</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Projects</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">7 / 8</span>
+                <button class="page-arrow" data-dir="next" title="Next page">›</button>
+              </div>
+            </div>
+            <div class="filter-bar" id="project-filters"></div>
+            <div class="projects-grid" id="projects-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PAGE 8: BRAIN DUMP ─── -->
+      <div class="book-page" data-page="7">
+        <div class="page-left">
+          <div class="chapter-number">08</div>
+          <div class="chapter-title">Brain Dump</div>
+        </div>
+        <div class="page-right">
+          <div class="page-content-inner">
+            <div class="page-header">
+              <h2 class="section-heading">Brain Dump</h2>
+              <div class="page-nav">
+                <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
+                <span class="page-num">8 / 8</span>
+              </div>
+            </div>
+            <p class="blog-subtext" id="blog-subtext"></p>
+            <div id="blog-content"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.book -->
+  </div><!-- /.book-viewport -->
+
+  <!-- Keyboard hint -->
+  <div class="keyboard-hints">← → arrow keys to flip pages</div>
+
+  <!-- ═══ ARTICLE READER MODAL ═══ -->
+  <div class="modal-overlay" id="article-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <span id="modal-header-text">Brain Dump</span>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h2 class="article-title" id="modal-title"></h2>
+        <div class="article-meta" id="modal-meta"></div>
+        <div class="article-content" id="modal-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CONTACT / DIRECT MESSAGE MODAL ═══ -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal-window contact-modal-window">
+      <div class="modal-header">
+        <span>Send a Direct Note</span>
+        <button class="modal-close" id="contact-close">&times;</button>
+      </div>
+      <div class="modal-body contact-modal-body">
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="contact-name" class="form-label">Your Name</label>
+            <input type="text" id="contact-name" class="notebook-input" placeholder="e.g. Alex Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email" class="form-label">Your Email or LinkedIn</label>
+            <input type="text" id="contact-email" class="notebook-input" placeholder="e.g. alex@company.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-message" class="form-label">Message</label>
+            <textarea id="contact-message" class="notebook-input notebook-textarea" rows="3" placeholder="Write a quick note, project inquiry, or greeting..." required></textarea>
+          </div>
+          <button type="submit" class="submit-note-btn" id="contact-submit">Send Note</button>
+          <div class="form-status" id="contact-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

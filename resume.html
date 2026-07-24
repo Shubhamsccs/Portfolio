@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shubham S Chauhan — Resume</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=EB+Garamond:wght@400;600;700&display=swap">
+  <style>
+    :root {
+      --primary: #000000;
+      --text: #111111;
+      --text-muted: #444444;
+      --line: #cccccc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #e5e5e5;
+      font-family: 'EB Garamond', Georgia, serif;
+      color: var(--text);
+      line-height: 1.45;
+      padding: 30px 15px;
+    }
+    .print-bar {
+      max-width: 800px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+    .print-btn {
+      background: #38BDF8;
+      color: #090F1E;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 150ms ease;
+    }
+    .print-btn:hover { background: #7DD3FC; }
+
+    .page {
+      background: #ffffff;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px 56px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      transition: filter 200ms ease;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+    .contact-info {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .contact-info a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .contact-info a:hover { text-decoration: underline; }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1.5px solid #000;
+      padding-bottom: 3px;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 1.05rem;
+    }
+    .item-title {
+      font-weight: 700;
+    }
+    .item-location {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .item-sub {
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+    .item-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.86rem;
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 4px;
+      font-size: 0.98rem;
+    }
+
+    .skills-line {
+      font-size: 1.02rem;
+      margin-bottom: 6px;
+    }
+    .skills-line strong {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .mobile-notice {
+      display: none;
+    }
+
+    /* Mobile Overlay & Blur Effect */
+    @media (max-width: 680px) {
+      body {
+        padding: 12px;
+      }
+      .print-bar {
+        display: none;
+      }
+      .page {
+        filter: blur(8px);
+        opacity: 0.4;
+        pointer-events: none;
+        user-select: none;
+        max-height: 85vh;
+        overflow: hidden;
+      }
+      .mobile-notice {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(14, 10, 66, 0.55);
+        backdrop-filter: blur(3px);
+      }
+      .mobile-notice-card {
+        background: #0E0A42;
+        color: #FFFBF3;
+        border: 2px solid #38BDF8;
+        border-radius: 14px;
+        padding: 26px 22px;
+        text-align: center;
+        max-width: 340px;
+        box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+        font-family: 'Inter', sans-serif;
+      }
+      .mobile-notice-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #38BDF8;
+        margin-bottom: 8px;
+      }
+      .mobile-notice-desc {
+        font-size: 0.86rem;
+        line-height: 1.45;
+        color: #E0F2FE;
+        margin-bottom: 20px;
+      }
+      .mobile-download-btn {
+        width: 100%;
+        background: #38BDF8;
+        color: #090F1E;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: transform 150ms ease;
+      }
+      .mobile-download-btn:active {
+        transform: scale(0.97);
+      }
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-bar, .mobile-notice { display: none !important; }
+      .page { box-shadow: none; padding: 30px 40px; max-width: 100%; filter: none !important; opacity: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <span>📄 Shubham S Chauhan — Official Resume</span>
+    <button class="print-btn" onclick="window.print()">📥 Download / Print PDF</button>
+  </div>
+
+  <!-- Mobile Overlay Prompt -->
+  <div class="mobile-notice">
+    <div class="mobile-notice-card">
+      <div class="mobile-notice-title">📄 Resume PDF Document</div>
+      <div class="mobile-notice-desc">This document is formatted for 1-page PDF printing. Please download or view the official PDF version for the best experience on mobile.</div>
+      <button class="mobile-download-btn" onclick="window.print()">📥 Download / View PDF</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <h1>Shubham S Chauhan</h1>
+    <div class="contact-info">
+      Pune, Maharashtra | +91-8591508599 | <a href="mailto:shubhammahekchauhan@gmail.com">shubhammahekchauhan@gmail.com</a><br>
+      <a href="https://www.linkedin.com/in/shubham-s-chauhan-b19340370" target="_blank">linkedin.com/in/shubham-s-chauhan</a> | <a href="https://github.com/shubhamsccs" target="_blank">github.com/Shubhamsccs</a>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section-title">Education</div>
+
+    <div style="margin-bottom: 10px;">
+      <div class="item-header">
+        <span class="item-title">Vishwakarma Institute Of Technology (VIT)</span>
+        <span class="item-location">Pune, Maharashtra</span>
+      </div>
+      <div class="item-sub">
+        <span>Bachelor of Technology - BTech, Data Science (CGPA: 9.0)</span>
+        <span class="item-date">Sep 2025 - Sep 2029</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div class="item-header">
+        <span class="item-title">KBP College</span>
+        <span class="item-location">Thane, Maharashtra</span>
+      </div>
+      <div class="item-sub">
+        <span>Higher Secondary Certificate (HSC) (79.00%)</span>
+        <span class="item-date">July 2022 - July 2024</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 14px;">
+      <div class="item-header">
+        <span class="item-title">Navodaya English High School</span>
+        <span class="item-location">Thane, Maharashtra</span>
+      </div>
+      <div class="item-sub">
+        <span>Secondary School Certificate (SSC) (91.60%)</span>
+        <span class="item-date">June 2012 - June 2022</span>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section-title">Experience</div>
+
+    <div style="margin-bottom: 10px;">
+      <div class="item-header">
+        <span class="item-title">Student Council VIT PUNE</span>
+        <span class="item-location">Pune</span>
+      </div>
+      <div class="item-sub">
+        <span>Website Volunteer</span>
+        <span class="item-date">Oct 2025 - June 2026</span>
+      </div>
+      <ul>
+        <li>Contributed to the development and maintenance of the Vishwakarandak College Fest: <strong>studentcouncilvitpune.in</strong></li>
+        <li>Developed and deployed live event website for Intercollege Fest: <strong>crsc.studentcouncilvitpune.in</strong></li>
+        <li>Gained experience in GitHub workflow, backend operations, and UI/UX design via Figma.</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom: 14px;">
+      <div class="item-header">
+        <span class="item-title">Google</span>
+        <span class="item-location">Remote</span>
+      </div>
+      <div class="item-sub">
+        <span>Google Student Ambassador</span>
+        <span class="item-date">Present</span>
+      </div>
+      <ul>
+        <li>Fostering a technical community and facilitating workshops on Google technologies on campus.</li>
+        <li>Email: shubhammahekchauhan@gmail.com</li>
+        <li>GID: 3598</li>
+      </ul>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section-title">Projects</div>
+
+    <div style="margin-bottom: 8px;">
+      <p style="font-size: 1.02rem;"><strong>Organ Connect:</strong> Web-based platform for organ donation matching (1st Semester Project).</p>
+    </div>
+    <div style="margin-bottom: 14px;">
+      <p style="font-size: 1.02rem;"><strong>Krishi AI Cycle:</strong> Secured 1st Prize in Ideathon; currently being extended as a 2nd-semester development project.</p>
+    </div>
+
+    <!-- TECHNICAL SKILLS -->
+    <div class="section-title">Technical Skills</div>
+
+    <div class="skills-line">
+      <strong>Languages:</strong> JavaScript, Java, C, HTML5, CSS3.
+    </div>
+    <div class="skills-line">
+      <strong>Frameworks:</strong> Bootstrap, jQuery, MERN Stack.
+    </div>
+    <div class="skills-line">
+      <strong>Tools:</strong> GitHub, VS Code, AntiGravity, Google Stitch.
+    </div>
+
+  </div>
+
+</body>
+</html>
