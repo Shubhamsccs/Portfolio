@@ -1135,7 +1135,7 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
 .modal-overlay.open { opacity: 1; pointer-events: auto; }
 
 .modal-window {
-  width: 100%; max-width: 700px; max-height: 82vh;
+  width: 100%; max-width: 660px; max-height: 78vh;
   background: var(--bg-book);
   border: 3px solid var(--border-dark);
   border-radius: 12px;
@@ -1188,6 +1188,63 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
 }
 .article-content p { margin-bottom: var(--line-height); }
 .article-content strong { color: var(--text-navy); }
+
+/* Modal Project View styling */
+.modal-project-view {
+  display: flex;
+  flex-direction: column;
+}
+.modal-project-banner {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--border-dark);
+  margin-bottom: 14px;
+  box-shadow: 3px 3px 0px rgba(14,10,66,0.12);
+  max-height: 180px;
+  flex-shrink: 0;
+}
+.modal-project-banner img {
+  width: 100%;
+  height: 100%;
+  max-height: 180px;
+  display: block;
+  object-fit: cover;
+}
+.modal-project-sub {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-navy);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.modal-project-details {
+  padding-left: 20px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.modal-project-details li {
+  margin-bottom: 8px;
+  color: var(--text-body);
+  font-size: 0.9rem;
+}
+.modal-project-footer {
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-light);
+}
+.modal-live-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: auto;
+  min-height: 36px;
+  padding: 6px 18px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  border-radius: 8px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
 
 /* ── Contact Form Modal & Inputs ── */
 .contact-modal-window { max-width: 520px; }
@@ -1386,13 +1443,44 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
   .pinned-frame { max-width: 170px; }
 
   .skills-grid, .projects-grid, .courses-grid { grid-template-columns: 1fr; }
-  .modal-window { max-height: 90vh; }
-
-  /* Remove the red margin line in modal on mobile too */
+  .modal-overlay { padding: 12px; }
+  .modal-window { max-height: 76vh; width: 94vw; }
+  .modal-header { padding: 10px 14px; }
   .modal-body {
+    padding: 14px;
     background-image: radial-gradient(var(--ruled-line) 1.2px, transparent 1.2px);
     background-size: 24px 24px;
     background-position: 0 0;
+  }
+  .modal-project-banner {
+    max-height: 130px;
+    margin-bottom: 10px;
+  }
+  .modal-project-banner img {
+    max-height: 130px;
+  }
+  .modal-project-sub {
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+  }
+  .modal-project-details {
+    padding-left: 16px;
+    margin-bottom: 12px;
+  }
+  .modal-project-details li {
+    font-size: 0.84rem;
+    margin-bottom: 6px;
+  }
+  .modal-live-btn {
+    width: auto;
+    display: inline-flex;
+    justify-content: center;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    height: auto;
+    min-height: 34px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   /* Ensure page-content-inner doesn't restrict scrolling */

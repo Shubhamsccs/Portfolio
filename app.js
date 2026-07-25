@@ -367,16 +367,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalContent) {
       modalContent.innerHTML = `
         <div class="modal-project-view">
-          <div style="border-radius:10px; overflow:hidden; border:2px solid var(--border-dark); margin-bottom:18px; box-shadow:4px 4px 0px rgba(14,10,66,0.15);">
-            <img src="${escHtml(targetProj.imageUrl)}" alt="${escHtml(targetProj.title)}" style="width:100%; display:block; object-fit:cover;" />
+          <div class="modal-project-banner">
+            <img src="${escHtml(targetProj.imageUrl)}" alt="${escHtml(targetProj.title)}" />
           </div>
-          <p style="font-weight:700; font-size:1.05rem; color:var(--text-navy); margin-bottom:12px;">${escHtml(targetProj.subtitle)}</p>
-          <ul style="padding-left:20px; margin-bottom:24px; line-height:1.6;">
-            ${targetProj.details.map(d => `<li style="margin-bottom:10px; color:var(--text-body);">${escHtml(d)}</li>`).join('')}
+          <ul class="modal-project-details">
+            ${targetProj.details.map(d => `<li>${escHtml(d)}</li>`).join('')}
           </ul>
-          <div style="margin-top:20px; padding-top:16px; border-top:1px dashed var(--border-light);">
-            <a href="${escHtml(targetProj.liveUrl)}" target="_blank" rel="noopener" class="copy-pill action-pill" style="display:inline-flex; align-items:center; gap:8px; padding:10px 24px; text-decoration:none; border-radius:8px; font-weight:800; font-size:0.92rem;">
-              Visit Live Festival Website ↗
+          <div class="modal-project-footer">
+            <a href="${escHtml(targetProj.liveUrl)}" target="_blank" rel="noopener" class="copy-pill action-pill modal-live-btn">
+              Live Link ↗
             </a>
           </div>
         </div>

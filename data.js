@@ -47,28 +47,28 @@ const portfolioData = {
       company: "Student Council VIT PUNE • Apprenticeship",
       location: "Pune • On-site",
       period: "Oct 2025 — Jun 2026",
-      description: "Volunteered as a front-end developer for the VIT Pune Student Council, building the digital infrastructure for the 2025 flagship festivals. Progressed from learning team workflows to taking independent ownership of front-end features in a fast-paced team environment.",
+      description: "Volunteered as a front-end developer for the VIT Pune Student Council, building digital infrastructure for flagship festivals. Progressed from learning team workflows to taking independent ownership of front-end features.",
       skills: ["Web Development", "JavaScript", "Git", "Cascading Style Sheets (CSS)", "HTML5", "GitHub", "Bootstrap (Framework)", "Project Management"],
       projects: [
         {
           id: "crescendo-fest",
           title: "CRESCENDO (2025-2026) - Inter College Fest",
-          subtitle: "Upgrade the workflows and skills acquired during the previous event to take on greater development responsibilities.",
+          subtitle: "Upgraded workflows & skills to take on greater development responsibilities.",
           imageUrl: "crescendo.png",
           liveUrl: "https://crsc.studentcouncilvitpune.in/",
           details: [
-            "Independently engineered the interactive Timeline page, building a dynamic UI for attendees to easily track event schedules and deadlines.",
+            "Independently engineered the interactive Timeline page, building a dynamic UI for attendees to track event schedules and deadlines.",
             "Collaborated closely with peers under strict deadlines to ensure a seamless launch for the inter-college festival."
           ]
         },
         {
           id: "vishwakarandak-fest",
           title: "Vishwakarandak (2025-2026)",
-          subtitle: "Served as a fresher, adapting to real-world team environments and collaborative web development.",
+          subtitle: "Served as a fresher, adapting to real-world team environments and web development.",
           imageUrl: "vishwakarandak.png",
           liveUrl: "https://www.studentcouncilvitpune.in/",
           details: [
-            "Learning version control using Git and GitHub, learning how to manage branches, resolve conflicts, and integrate code with a larger team.",
+            "Gained hands-on experience in version control with Git & GitHub, managing branches, resolving merge conflicts, and integrating team code.",
             "Assisted in developing and maintaining responsive front-end components for the high-traffic intra-college fest platform."
           ]
         }
