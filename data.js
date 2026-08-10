@@ -36,7 +36,7 @@ const portfolioData = {
       role: "Google Gemini Student Ambassador",
       company: "Google • Internship",
       location: "Pune • On-site",
-      period: "May 2026 — Present",
+      period: "May 2026 — July 2026",
       bullets: [
         "Product Marketing and Social Media Marketing.",
         "Representing Google Gemini across campus communities and student tech initiatives."
