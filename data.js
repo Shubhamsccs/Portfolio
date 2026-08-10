@@ -121,8 +121,30 @@ const portfolioData = {
     }
   ],
 
-  // ── PAGE 7: PROJECTS ──
-  projects: [],
+  // ── PAGE 7: PROJECTS — Actual (Team/College) ──
+  actualProjects: [
+    {
+      title: "CRESCENDO 2025-26 — Timeline Page",
+      subtitle: "VIT Pune Student Council • Inter-College Fest",
+      description: "Independently engineered the interactive Timeline page for the inter-college fest. Built a dynamic UI so attendees could track event schedules and deadlines in real time.",
+      tags: ["HTML5", "CSS", "JavaScript", "Bootstrap", "Git"],
+      links: [
+        { label: "Live Site", url: "https://crsc.studentcouncilvitpune.in/" }
+      ]
+    },
+    {
+      title: "Vishwakarandak 2025-26",
+      subtitle: "VIT Pune Student Council • Intra-College Fest",
+      description: "Assisted in developing and maintaining responsive front-end components for the high-traffic intra-college fest platform. Gained hands-on Git & GitHub experience managing branches and resolving merge conflicts.",
+      tags: ["HTML5", "CSS", "JavaScript", "Git", "GitHub"],
+      links: [
+        { label: "Live Site", url: "https://www.studentcouncilvitpune.in/" }
+      ]
+    }
+  ],
+
+  // ── PAGE 7: PROJECTS — Whiteboard (Vibe-Built Personal) ──
+  whiteboardProjects: [],
 
   // ── COURSES & CERTIFICATIONS ──
   courses: [],

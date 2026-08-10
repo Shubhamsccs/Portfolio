@@ -5,7 +5,7 @@
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  const TOTAL_PAGES = 9;
+  const TOTAL_PAGES = 8;
   let currentPage = 0;
   let isTransitioning = false;
   const SLIDE_DURATION = 500; // must match CSS --slide-duration
@@ -401,14 +401,21 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Wire up sub-tabs
-    document.querySelectorAll('.edu-tab').forEach(tab => {
+    // Ensure Degree tab is always the default on render
+    const eduEl = document.getElementById('education-content');
+    const coursesEl = document.getElementById('courses-content');
+    if (eduEl) eduEl.style.display = '';
+    if (coursesEl) coursesEl.style.display = 'none';
+    document.querySelectorAll('[data-tab]').forEach(t => t.classList.remove('active'));
+    const degreeTab = document.querySelector('[data-tab="degrees"]');
+    if (degreeTab) degreeTab.classList.add('active');
+
+    // Wire up sub-tabs — scoped to [data-tab] only, not project tabs
+    document.querySelectorAll('[data-tab]').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.edu-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('[data-tab]').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const which = tab.dataset.tab;
-        const eduEl = document.getElementById('education-content');
-        const coursesEl = document.getElementById('courses-content');
         if (which === 'degrees') {
           if (eduEl) eduEl.style.display = '';
           if (coursesEl) coursesEl.style.display = 'none';
@@ -433,43 +440,91 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  // ── PAGE 7: PROJECTS (with filter) ──
-  let activeFilter = 'All';
+  // ── PAGE 7: PROJECTS (two tabs: Actual + Whiteboard) ──
+  function renderProjectCard(proj) {
+    const linksHtml = (proj.links && proj.links.length)
+      ? `<div class="proj-card-links">${proj.links.map(l =>
+          `<a class="copy-pill action-pill proj-link-btn" href="${escHtml(l.url)}" target="_blank" rel="noopener">${escHtml(l.label)} ↗</a>`
+        ).join('')}</div>`
+      : '';
+
+    const descHtml = proj.description
+      ? `<p class="proj-card-desc">${escHtml(proj.description)}</p>` : '';
+
+    const badgeHtml = proj.badge
+      ? `<span class="proj-vibe-badge">${escHtml(proj.badge)}</span>` : '';
+
+    return `
+      <div class="proj-card-large">
+        <div class="proj-card-top">
+          <div class="proj-card-title-row">
+            <h3 class="proj-card-title">${escHtml(proj.title)}</h3>
+            ${badgeHtml}
+          </div>
+          ${proj.subtitle ? `<div class="proj-card-sub">${escHtml(proj.subtitle)}</div>` : ''}
+        </div>
+        ${descHtml}
+        <div class="tags-row">${(proj.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>
+        ${linksHtml}
+      </div>
+    `;
+  }
 
   function renderProjects() {
-    const filterBar = document.getElementById('project-filters');
-    const grid = document.getElementById('projects-content');
-    if (!filterBar || !grid || !portfolioData.projects) return;
+    const actualEl = document.getElementById('actual-projects-content');
+    const whiteboardEl = document.getElementById('whiteboard-projects-content');
+    if (!actualEl || !whiteboardEl) return;
 
-    if (!portfolioData.projects.length) {
-      filterBar.innerHTML = '';
-      grid.innerHTML = cookingPlaceholder('Projects');
-      return;
+    const actualIntro = `
+      <div class="proj-section-intro">
+        <p class="proj-intro-text">
+          Built under deadlines, with teammates, inside classrooms and college corridors.
+          These are the projects where I learned what it actually means to ship something as a team —
+          not just write code, but coordinate, commit, and deliver.
+        </p>
+      </div>
+    `;
+
+    const whiteboardIntro = `
+      <div class="proj-section-intro">
+        <p class="proj-intro-text">
+          No assignment. No rubric. No one asked me to.
+          These exist because something annoyed me enough to fix it —
+          built with curiosity, AI tools, and zero gatekeeping.
+          The logic is mine to know. The result is everyone's to use.
+        </p>
+      </div>
+    `;
+
+    // Actual / Campus Builds
+    if (!portfolioData.actualProjects || !portfolioData.actualProjects.length) {
+      actualEl.innerHTML = actualIntro + cookingPlaceholder('Campus Builds');
+    } else {
+      actualEl.innerHTML = actualIntro + `<div class="projects-grid-large">${portfolioData.actualProjects.map(renderProjectCard).join('')}</div>`;
     }
 
-    const categories = ['All', ...new Set(portfolioData.projects.map(p => p.category))];
-    filterBar.innerHTML = categories.map(c =>
-      `<button class="filter-chip${c === activeFilter ? ' active' : ''}" data-cat="${escHtml(c)}">${escHtml(c)}</button>`
-    ).join('');
+    // Whiteboard / The Sandbox
+    if (!portfolioData.whiteboardProjects || !portfolioData.whiteboardProjects.length) {
+      whiteboardEl.innerHTML = whiteboardIntro + cookingPlaceholder('The Sandbox');
+    } else {
+      whiteboardEl.innerHTML = whiteboardIntro + `<div class="projects-grid-large">${portfolioData.whiteboardProjects.map(renderProjectCard).join('')}</div>`;
+    }
 
-    filterBar.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        activeFilter = chip.dataset.cat;
-        renderProjects();
+    // Wire up sub-tabs
+    document.querySelectorAll('#project-tabs .edu-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('#project-tabs .edu-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const which = tab.dataset.ptab;
+        if (which === 'actual') {
+          actualEl.style.display = '';
+          whiteboardEl.style.display = 'none';
+        } else {
+          actualEl.style.display = 'none';
+          whiteboardEl.style.display = '';
+        }
       });
     });
-
-    const filtered = activeFilter === 'All'
-      ? portfolioData.projects
-      : portfolioData.projects.filter(p => p.category === activeFilter);
-
-    grid.innerHTML = filtered.map(proj => `
-      <div class="note-card">
-        <h3>${escHtml(proj.title)}</h3>
-        <p style="font-size:0.88rem; margin:6px 0;">${escHtml(proj.description)}</p>
-        <div class="tags-row">${proj.tags.map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>
-      </div>
-    `).join('');
   }
 
   // ── COURSES ──

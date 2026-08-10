@@ -20,9 +20,9 @@
       <button class="nav-pill" data-page="1">About</button>
       <button class="nav-pill" data-page="2">Featured</button>
       <button class="nav-pill" data-page="3">Experience</button>
-      <button class="nav-pill" data-page="4">Education</button>
+      <button class="nav-pill" data-page="4">Projects</button>
       <button class="nav-pill" data-page="5">Skills</button>
-      <button class="nav-pill" data-page="6">Projects</button>
+      <button class="nav-pill" data-page="6">Education</button>
       <button class="nav-pill" data-page="7">Brain Dump</button>
   </div>
 
@@ -124,16 +124,16 @@
         </div>
       </div>
 
-      <!-- ─── PAGE 5: EDUCATION ─── -->
+      <!-- ─── PAGE 5: PROJECTS ─── -->
       <div class="book-page" data-page="4">
         <div class="page-left">
           <div class="chapter-number">05</div>
-          <div class="chapter-title">Education</div>
+          <div class="chapter-title">Projects</div>
         </div>
         <div class="page-right">
           <div class="page-content-inner">
             <div class="page-header">
-              <h2 class="section-heading">Education</h2>
+              <h2 class="section-heading">Projects</h2>
               <div class="page-nav">
                 <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
                 <span class="page-num">5 / 8</span>
@@ -141,12 +141,12 @@
               </div>
             </div>
             <!-- Sub-tabs -->
-            <div class="edu-tabs">
-              <button class="edu-tab active" data-tab="degrees">Degree</button>
-              <button class="edu-tab" data-tab="courses">Courses & Certs</button>
+            <div class="edu-tabs" id="project-tabs">
+              <button class="edu-tab active" data-ptab="actual">Campus Builds</button>
+              <button class="edu-tab" data-ptab="whiteboard">The Sandbox ✦</button>
             </div>
-            <div id="education-content" class="timeline"></div>
-            <div id="courses-content" class="courses-grid" style="display:none;"></div>
+            <div id="actual-projects-content"></div>
+            <div id="whiteboard-projects-content" style="display:none;"></div>
           </div>
         </div>
       </div>
@@ -172,24 +172,29 @@
         </div>
       </div>
 
-      <!-- ─── PAGE 7: PROJECTS ─── -->
+      <!-- ─── PAGE 7: EDUCATION ─── -->
       <div class="book-page" data-page="6">
         <div class="page-left">
           <div class="chapter-number">07</div>
-          <div class="chapter-title">Projects</div>
+          <div class="chapter-title">Education</div>
         </div>
         <div class="page-right">
           <div class="page-content-inner">
             <div class="page-header">
-              <h2 class="section-heading">Projects</h2>
+              <h2 class="section-heading">Education</h2>
               <div class="page-nav">
                 <button class="page-arrow" data-dir="prev" title="Previous page">‹</button>
                 <span class="page-num">7 / 8</span>
                 <button class="page-arrow" data-dir="next" title="Next page">›</button>
               </div>
             </div>
-            <div class="filter-bar" id="project-filters"></div>
-            <div class="projects-grid" id="projects-content"></div>
+            <!-- Sub-tabs -->
+            <div class="edu-tabs">
+              <button class="edu-tab active" data-tab="degrees">Degree</button>
+              <button class="edu-tab" data-tab="courses">Courses & Certs</button>
+            </div>
+            <div id="education-content" class="timeline"></div>
+            <div id="courses-content" class="courses-grid" style="display:none;"></div>
           </div>
         </div>
       </div>
