@@ -9,7 +9,7 @@ const portfolioData = {
   headline: {
     greeting: "Hi there! I'm",
     name: "Shubham",
-    tagline: "Google Gemini | Student Ambassador'2026 | CSE (Data Science) @ VIT Pune | MERN Stack Developer",
+    tagline: "Google Gemini Student Ambassador (May–July 2026) | CSE (Data Science) @ VIT Pune",
     bio: "Welcome to my universe — a quiet notebook of code, craft, and curiosity.",
     email: "shubhammahekchauhan@gmail.com",
     github: "https://github.com/shubhamsccs",
@@ -20,10 +20,10 @@ const portfolioData = {
   // ── PAGE 2: ABOUT ──
   about: {
     paragraphs: [
-      "I am a Second Year BTech student at VIT Pune.",
-      "Serving as a 2026 Google Gemini Student Ambassador and competing in challenges like The Big Code 2026.",
-      "I treat AI as my \"second brain\" to boost productivity, but I swear by a \"Back to Basics\" approach. I believe in mastering fundamental principles first, so I can use cutting-edge tools to innovate effectively.",
-      "Always open to connecting over web dev or tech!"
+      "I am a Second Year B.Tech student studying Computer Science (Data Science) at VIT Pune.",
+      "I spend most of my time learning web development, practicing programming, and understanding how software works under the hood.",
+      "I like using AI tools to assist my learning process, but I always prioritize understanding the core fundamentals first.",
+      "I'm here to keep improving my skills, build practical projects, and connect with others in tech."
     ]
   },
 
