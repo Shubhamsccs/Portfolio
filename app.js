@@ -94,6 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentEl = pages[currentPage];
     const targetEl = pages[targetIndex];
 
+    const resetPageScroll = (el) => {
+      if (!el) return;
+      el.scrollTop = 0;
+      el.querySelectorAll('.page-right, .page-left, .page-full-spread, .page-content-inner, .book-page').forEach(c => c.scrollTop = 0);
+    };
+
+    resetPageScroll(targetEl);
+
     // Trigger shadow sweep
     pageShadow.classList.add('sweeping');
 
@@ -104,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       targetEl.classList.add(forward ? 'slide-in-right' : 'slide-in-left');
       targetEl.style.display = 'flex';
+      resetPageScroll(targetEl);
     }, 60);
 
     // Cleanup after animation
@@ -116,8 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       pageShadow.classList.remove('sweeping');
 
-      const scrollable = targetEl.querySelector('.page-right');
-      if (scrollable) scrollable.scrollTop = 0;
+      resetPageScroll(targetEl);
 
       updateNavbar(targetIndex);
       currentPage = targetIndex;
@@ -564,6 +572,8 @@ document.addEventListener('DOMContentLoaded', () => {
           actualEl.style.display = 'none';
           whiteboardEl.style.display = '';
         }
+        const scrollable = tab.closest('.page-right') || tab.closest('.book-page');
+        if (scrollable) scrollable.scrollTop = 0;
       });
     });
   }
@@ -658,6 +668,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/\n\n/g, '</p><p>')
       .replace(/\n/g, '<br>');
     document.getElementById('modal-content').innerHTML = `<p>${htmlContent}</p>`;
+
+    const modalBody = modal.querySelector('.modal-body');
+    if (modalBody) modalBody.scrollTop = 0;
 
     modal.classList.add('open');
   }
@@ -922,6 +935,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
       }
     }, 50);
+
+    const modalBody = modal.querySelector('.modal-body');
+    if (modalBody) modalBody.scrollTop = 0;
 
     if (modal) modal.classList.add('open');
   }

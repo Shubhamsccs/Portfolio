@@ -1269,19 +1269,22 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
   backdrop-filter: blur(6px);
   z-index: 2000;
   display: flex; align-items: center; justify-content: center;
-  padding: 24px;
+  padding: clamp(18px, 4vh, 32px) clamp(12px, 3vw, 24px);
+  box-sizing: border-box;
   opacity: 0; pointer-events: none;
   transition: opacity 250ms ease;
 }
 .modal-overlay.open { opacity: 1; pointer-events: auto; }
 
 .modal-window {
-  width: 100%; max-width: 660px; max-height: 78vh;
+  width: 100%; max-width: 660px; max-height: 76vh;
   background: var(--bg-book);
   border: 3px solid var(--border-dark);
-  border-radius: 12px;
-  box-shadow: 8px 8px 0px var(--border-dark);
+  border-radius: 14px;
+  box-shadow: 6px 6px 0px var(--border-dark);
   display: flex; flex-direction: column; overflow: hidden;
+  box-sizing: border-box;
+  margin: auto;
 }
 
 .modal-header {
@@ -1479,8 +1482,9 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
    ========================================================================== */
 .modal-window.modal-window-showcase {
   max-width: 860px;
-  max-height: 88vh;
-  width: 92vw;
+  max-height: 78vh;
+  width: 100%;
+  margin: auto;
 }
 
 .playstore-modal-view {
@@ -2198,8 +2202,17 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
   .pinned-frame { max-width: 170px; }
 
   .skills-grid, .projects-grid, .projects-grid-large, .courses-grid { grid-template-columns: 1fr; }
-  .modal-overlay { padding: 12px; }
-  .modal-window { max-height: 76vh; width: 94vw; }
+  .modal-overlay {
+    padding: 16px 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-window {
+    max-height: 76vh;
+    width: 100%;
+    max-width: calc(100vw - 24px);
+    margin: auto;
+  }
   .modal-header { padding: 10px 14px; }
   .modal-body {
     padding: 14px;
@@ -2240,10 +2253,11 @@ p  { font-size: 0.95rem; color: var(--text-body); line-height: var(--line-height
 
   /* Sandbox showcase modal mobile responsiveness — Clean, Compact & No Clutter */
   .modal-window.modal-window-showcase {
-    max-width: 95vw;
-    max-height: 88vh;
-    width: 95vw;
-    padding: 14px 10px;
+    max-width: calc(100vw - 24px);
+    max-height: 78vh;
+    width: 100%;
+    padding: 0;
+    margin: auto;
     box-sizing: border-box;
   }
   .playstore-modal-view {
