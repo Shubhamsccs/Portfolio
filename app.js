@@ -157,7 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     const articleModal = document.getElementById('article-modal');
     const contactModal = document.getElementById('contact-modal');
-    if ((articleModal && articleModal.classList.contains('open')) || (contactModal && contactModal.classList.contains('open'))) return;
+    const lightboxModal = document.getElementById('image-lightbox');
+    if ((articleModal && articleModal.classList.contains('open')) ||
+        (contactModal && contactModal.classList.contains('open')) ||
+        (lightboxModal && lightboxModal.classList.contains('open'))) return;
 
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
@@ -440,13 +443,19 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  // ── PAGE 7: PROJECTS (two tabs: Actual + Whiteboard) ──
+  // ── PAGE 7: PROJECTS (two tabs: Actual Campus Builds + The Sandbox) ──
   function renderProjectCard(proj) {
-    const linksHtml = (proj.links && proj.links.length)
-      ? `<div class="proj-card-links">${proj.links.map(l =>
-          `<a class="copy-pill action-pill proj-link-btn" href="${escHtml(l.url)}" target="_blank" rel="noopener">${escHtml(l.label)} ↗</a>`
-        ).join('')}</div>`
-      : '';
+    const isSandbox = (proj.ecosystems && proj.ecosystems.length) || (proj.gallery && proj.gallery.length);
+
+    let linksHtml = '';
+    if (proj.links && proj.links.length) {
+      linksHtml = `<div class="proj-card-links">${proj.links.map(l => {
+        if (l.action === 'openModal') {
+          return `<button class="copy-pill action-pill proj-link-btn open-sandbox-modal-btn" data-proj-id="${escHtml(l.modalId || proj.id)}">${escHtml(l.label)} ↗</button>`;
+        }
+        return `<a class="copy-pill action-pill proj-link-btn" href="${escHtml(l.url)}" target="_blank" rel="noopener">${escHtml(l.label)} ↗</a>`;
+      }).join('')}</div>`;
+    }
 
     const descHtml = proj.description
       ? `<p class="proj-card-desc">${escHtml(proj.description)}</p>` : '';
@@ -454,16 +463,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const badgeHtml = proj.badge
       ? `<span class="proj-vibe-badge">${escHtml(proj.badge)}</span>` : '';
 
+    // If it's a Sandbox showcase project like Beam Cast, render ecosystem tags!
+    let sandboxExtras = '';
+    if (isSandbox) {
+      const ecoPills = (proj.ecosystems || []).map(eco => `
+        <span class="eco-tag-pill">${getSystemIcon(eco.iconType || 'mobile', 13)} ${escHtml(eco.name)}</span>
+      `).join('');
+
+      sandboxExtras = `<div class="sandbox-eco-strip">${ecoPills}</div>`;
+    }
+
     return `
-      <div class="proj-card-large">
+      <div class="proj-card-large ${isSandbox ? 'sandbox-proj-card' : ''}" data-proj-id="${escHtml(proj.id || '')}">
         <div class="proj-card-top">
           <div class="proj-card-title-row">
             <h3 class="proj-card-title">${escHtml(proj.title)}</h3>
-            ${badgeHtml}
           </div>
           ${proj.subtitle ? `<div class="proj-card-sub">${escHtml(proj.subtitle)}</div>` : ''}
         </div>
         ${descHtml}
+        ${sandboxExtras}
         <div class="tags-row">${(proj.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>
         ${linksHtml}
       </div>
@@ -509,6 +528,28 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       whiteboardEl.innerHTML = whiteboardIntro + `<div class="projects-grid-large">${portfolioData.whiteboardProjects.map(renderProjectCard).join('')}</div>`;
     }
+
+    // Attach click events for Sandbox interactive triggers
+    const attachSandboxEvents = () => {
+      document.querySelectorAll('.open-sandbox-modal-btn').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const projId = el.getAttribute('data-proj-id');
+          const proj = (portfolioData.whiteboardProjects || []).find(p => p.id === projId);
+          if (proj) openSandboxModal(proj);
+        });
+      });
+
+      document.querySelectorAll('.sandbox-proj-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('a, button')) return;
+          const projId = card.getAttribute('data-proj-id');
+          const proj = (portfolioData.whiteboardProjects || []).find(p => p.id === projId);
+          if (proj) openSandboxModal(proj);
+        });
+      });
+    };
+    attachSandboxEvents();
 
     // Wire up sub-tabs
     document.querySelectorAll('#project-tabs .edu-tab').forEach(tab => {
@@ -588,17 +629,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ══════════════════════════════════════════════════════════════
-  // ARTICLE MODAL
+  // ARTICLE & SHOWCASE MODALS
   // ══════════════════════════════════════════════════════════════
   const modal = document.getElementById('article-modal');
   const modalClose = document.getElementById('modal-close');
 
   function openArticleModal(post) {
     if (!modal) return;
+    const modalWindow = modal.querySelector('.modal-window');
+    if (modalWindow) modalWindow.classList.remove('modal-window-showcase');
+
     const headerText = document.getElementById('modal-header-text');
     if (headerText) headerText.textContent = 'Brain Dump — Article';
-    document.getElementById('modal-title').textContent = post.title;
-    document.getElementById('modal-meta').textContent = `${post.date}  ·  ${post.readTime}  ·  ${post.topic}`;
+    const modalTitle = document.getElementById('modal-title');
+    const modalMeta = document.getElementById('modal-meta');
+    if (modalTitle) {
+      modalTitle.style.display = '';
+      modalTitle.textContent = post.title;
+    }
+    if (modalMeta) {
+      modalMeta.style.display = '';
+      modalMeta.textContent = `${post.date}  ·  ${post.readTime}  ·  ${post.topic}`;
+    }
 
     const htmlContent = (post.content || '')
       .replace(/### (.+)/g, '<h3>$1</h3>')
@@ -610,11 +662,320 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('open');
   }
 
-  function closeModal() { if (modal) modal.classList.remove('open'); }
+  // ── Professional Vector System Icons (No Emojis) ──
+  function getSystemIcon(name, size = 14) {
+    const s = size;
+    switch (name) {
+      case 'mobile':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>`;
+      case 'web':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>`;
+      case 'cast':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/><line x1="2" y1="20" x2="2.01" y2="20"/></svg>`;
+      case 'bolt':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>`;
+      case 'shield':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>`;
+      case 'cpu':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>`;
+      case 'clock':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`;
+      case 'gallery':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>`;
+      case 'layers':
+        return `<svg class="svg-inline-icon" viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>`;
+      default:
+        return '';
+    }
+  }
+
+  // ── Open Sandbox Project Interactive Showcase Modal (Playstore / Ecosystem Theme) ──
+  function openSandboxModal(proj) {
+    if (!modal) return;
+    const modalWindow = modal.querySelector('.modal-window');
+    if (modalWindow) modalWindow.classList.add('modal-window-showcase');
+
+    const headerText = document.getElementById('modal-header-text');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMeta = document.getElementById('modal-meta');
+    const modalContent = document.getElementById('modal-content');
+
+    if (headerText) headerText.textContent = 'The Sandbox · Project Showcase';
+    // Hide default modal title/meta to avoid duplicate headers in showcase view
+    if (modalTitle) modalTitle.style.display = 'none';
+    if (modalMeta) modalMeta.style.display = 'none';
+
+    const galleryList = proj.gallery || [];
+    let activeGalleryIdx = 0;
+
+    // Tabs HTML for Interactive Screen Switcher
+    const tabsHtml = galleryList.map((g, idx) => `
+      <button class="ps-showcase-tab ${idx === 0 ? 'active' : ''}" data-tab-idx="${idx}" type="button">
+        <span class="ps-tab-num">${idx + 1}</span>
+        <span class="ps-tab-text">${escHtml(g.tabLabel || g.tag || g.title)}</span>
+      </button>
+    `).join('');
+
+    // Dots HTML
+    const dotsHtml = galleryList.map((_, idx) => `
+      <span class="ps-stage-dot ${idx === 0 ? 'active' : ''}" data-dot-idx="${idx}"></span>
+    `).join('');
+
+    const initialItem = galleryList[0] || { url: '', title: '', desc: '', tag: '' };
+
+    // Ecosystems HTML
+    const ecoHtml = (proj.ecosystems || []).map(eco => `
+      <div class="ps-eco-box ${escHtml(eco.id || '')}">
+        <div class="ps-eco-header">
+          <div class="ps-eco-title-row">
+            <span class="ps-eco-icon-badge">${getSystemIcon(eco.iconType || 'mobile', 18)}</span>
+            <span class="ps-eco-title">${escHtml(eco.name)}</span>
+          </div>
+          <div class="ps-eco-sub">${escHtml(eco.tagline || '')}</div>
+        </div>
+        <ul class="ps-feature-list">
+          ${(eco.features || []).map(f => `
+            <li>
+              <div class="ps-feat-head"><span class="ps-feat-bullet">▸</span> <strong>${escHtml(f.title)}</strong></div>
+              <p class="ps-feat-desc">${escHtml(f.desc)}</p>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `).join('');
+
+    if (modalContent) {
+      modalContent.innerHTML = `
+        <div class="playstore-modal-view">
+          
+          <!-- Unified Clean App Header (Theme Matched & Properly Aligned) -->
+          <div class="ps-header-unified">
+            <div class="ps-title-row">
+              <span class="ps-app-icon-badge">${getSystemIcon('cast', 20)}</span>
+              <div class="ps-app-name">${escHtml(proj.title)}</div>
+            </div>
+            
+            ${proj.subtitle ? `<div class="ps-app-sub">${escHtml(proj.subtitle)}</div>` : ''}
+
+            <div class="ps-badges-strip">
+              <span class="ps-badge-pill">${getSystemIcon('bolt', 12)} Peer-to-Peer</span>
+              <span class="ps-badge-pill">${getSystemIcon('shield', 12)} Zero-Cloud Sync</span>
+              <span class="ps-badge-pill">${getSystemIcon('cpu', 12)} Native Capture</span>
+              <span class="ps-badge-pill">${getSystemIcon('clock', 12)} &lt; 35ms Latency</span>
+            </div>
+          </div>
+
+          <p class="ps-lead-desc">${escHtml(proj.description)}</p>
+
+          <!-- Interactive Showcase Section (Tabbed Screen Switcher) -->
+          <div class="ps-showcase-section">
+            <div class="ps-section-header">
+              <div class="ps-sec-title-group">
+                <span class="ps-sec-icon">${getSystemIcon('gallery', 16)}</span>
+                <span class="ps-section-title">Visual Demonstration</span>
+              </div>
+            </div>
+
+            <!-- Segmented Screen Tabs (Desktop) -->
+            <div class="ps-showcase-tabs" id="ps-showcase-tabs">
+              ${tabsHtml}
+            </div>
+
+            <!-- Main Showcase Display Frame with Overlay Arrows -->
+            <div class="ps-showcase-stage">
+              <div class="ps-screen-frame" id="ps-screen-frame" title="Click to open high-resolution viewer">
+                <img id="ps-active-img" src="${escHtml(initialItem.url)}" alt="${escHtml(initialItem.title)}" />
+                <div class="ps-stage-badge" id="ps-stage-badge">${escHtml(initialItem.tag || 'Preview')}</div>
+                <button class="ps-stage-enlarge-btn" id="ps-stage-enlarge-btn" type="button" title="View Fullscreen in HD">
+                  ${getSystemIcon('gallery', 12)}
+                  <span>HD</span>
+                </button>
+                <button class="ps-frame-arrow ps-frame-prev" id="ps-stage-prev" type="button" aria-label="Previous view">‹</button>
+                <button class="ps-frame-arrow ps-frame-next" id="ps-stage-next" type="button" aria-label="Next view">›</button>
+              </div>
+
+              <!-- Navigation bar below stage -->
+              <div class="ps-stage-nav-bar">
+                <span class="ps-stage-counter" id="ps-stage-counter">1 of ${galleryList.length}</span>
+                <div class="ps-stage-dots" id="ps-stage-dots">
+                  ${dotsHtml}
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Screen Explanation Card -->
+            <div class="ps-screen-info-card" id="ps-screen-info-card">
+              <h4 class="ps-screen-title" id="ps-screen-title">${escHtml(initialItem.title)}</h4>
+              <p class="ps-screen-desc" id="ps-screen-desc">${escHtml(initialItem.desc)}</p>
+            </div>
+          </div>
+
+          <!-- Dual Ecosystem Feature Breakdown -->
+          <div class="ps-ecosystems-section">
+            <div class="ps-section-header">
+              <div class="ps-sec-title-group">
+                <span class="ps-sec-icon">${getSystemIcon('layers', 16)}</span>
+                <span class="ps-section-title">Ecosystem Breakdown & Core Capabilities</span>
+              </div>
+            </div>
+
+            <div class="ps-ecosystems-grid">
+              ${ecoHtml}
+            </div>
+          </div>
+
+          <!-- Under the Hood Tech Stack -->
+          <div class="ps-tech-section">
+            <div class="ps-tech-title">Architecture & Key Technologies</div>
+            <div class="tags-row" style="margin-top:8px;">
+              ${(proj.tags || []).map(t => `<span class="tag ps-tag">${escHtml(t)}</span>`).join('')}
+            </div>
+          </div>
+
+        </div>
+      `;
+    }
+
+    // Attach interactive screen switcher logic
+    setTimeout(() => {
+      const activeImg = document.getElementById('ps-active-img');
+      const stageBadge = document.getElementById('ps-stage-badge');
+      const screenTitle = document.getElementById('ps-screen-title');
+      const screenDesc = document.getElementById('ps-screen-desc');
+      const stageCounter = document.getElementById('ps-stage-counter');
+      const tabBtns = modalContent ? modalContent.querySelectorAll('.ps-showcase-tab') : [];
+      const dots = modalContent ? modalContent.querySelectorAll('.ps-stage-dot') : [];
+      const prevBtn = document.getElementById('ps-stage-prev');
+      const nextBtn = document.getElementById('ps-stage-next');
+      const frame = document.getElementById('ps-screen-frame');
+      const enlargeBtn = document.getElementById('ps-stage-enlarge-btn');
+
+      const setGalleryView = (idx) => {
+        if (!galleryList[idx]) return;
+        activeGalleryIdx = idx;
+        const cur = galleryList[idx];
+
+        if (activeImg) {
+          activeImg.style.opacity = '0.4';
+          activeImg.src = cur.url;
+          activeImg.alt = cur.title;
+          setTimeout(() => { activeImg.style.opacity = '1'; }, 60);
+        }
+        if (stageBadge) stageBadge.textContent = cur.tag || 'Preview';
+        if (screenTitle) screenTitle.textContent = cur.title;
+        if (screenDesc) screenDesc.textContent = cur.desc;
+        if (stageCounter) stageCounter.textContent = `${idx + 1} of ${galleryList.length}`;
+
+        tabBtns.forEach((btn, bIdx) => {
+          btn.classList.toggle('active', bIdx === idx);
+        });
+        dots.forEach((dot, dIdx) => {
+          dot.classList.toggle('active', dIdx === idx);
+        });
+      };
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idx = parseInt(btn.getAttribute('data-tab-idx'), 10);
+          setGalleryView(idx);
+        });
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.getAttribute('data-dot-idx'), 10);
+          setGalleryView(idx);
+        });
+      });
+
+      if (prevBtn) {
+        prevBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const newIdx = (activeGalleryIdx - 1 + galleryList.length) % galleryList.length;
+          setGalleryView(newIdx);
+        };
+      }
+
+      if (nextBtn) {
+        nextBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const newIdx = (activeGalleryIdx + 1) % galleryList.length;
+          setGalleryView(newIdx);
+        };
+      }
+
+      // Enlarge trigger for Lightbox
+      const triggerLightbox = () => {
+        if (galleryList[activeGalleryIdx]) {
+          openLightbox(galleryList[activeGalleryIdx]);
+        }
+      };
+
+      if (frame) frame.onclick = triggerLightbox;
+      if (enlargeBtn) {
+        enlargeBtn.onclick = (e) => {
+          e.stopPropagation();
+          triggerLightbox();
+        };
+      }
+    }, 50);
+
+    if (modal) modal.classList.add('open');
+  }
+
+  // ── LIGHTBOX CONTROLLER ──
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  function openLightbox(item) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = item.url;
+    lightboxImg.alt = item.title;
+    if (lightboxTitle) lightboxTitle.textContent = item.title || 'Screenshot Preview';
+    if (lightboxCaption) {
+      const tagText = item.tag ? `<strong>[${escHtml(item.tag)}]</strong> ` : '';
+      lightboxCaption.innerHTML = `${tagText}${escHtml(item.desc || item.title || '')}`;
+    }
+    lightbox.classList.add('open');
+  }
+
+  function closeLightbox() {
+    if (lightbox) lightbox.classList.remove('open');
+  }
+
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  function closeModal() {
+    if (modal) {
+      modal.classList.remove('open');
+      const mw = modal.querySelector('.modal-window');
+      if (mw) mw.classList.remove('modal-window-showcase');
+    }
+  }
 
   if (modalClose) modalClose.addEventListener('click', closeModal);
   if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (lightbox && lightbox.classList.contains('open')) {
+        closeLightbox();
+        return;
+      }
+      closeModal();
+      if (contactModal) contactModal.classList.remove('open');
+    }
+  });
 
   // ══════════════════════════════════════════════════════════════
   // CONTACT MODAL EVENT HANDLERS

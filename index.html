@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Personal Portfolio — A notebook of code, craft, and curiosity">
-  <title>My Portfolio</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230E0A42'><path d='M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z'/></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -264,6 +263,20 @@
           <button type="submit" class="submit-note-btn" id="contact-submit">Send Note</button>
           <div class="form-status" id="contact-status"></div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ IMAGE LIGHTBOX MODAL ═══ -->
+  <div class="modal-overlay lightbox-overlay" id="image-lightbox">
+    <div class="lightbox-window">
+      <div class="lightbox-topbar">
+        <span class="lightbox-title" id="lightbox-title">Screenshot Preview</span>
+        <button class="modal-close lightbox-close" id="lightbox-close" title="Close Preview">&times;</button>
+      </div>
+      <div class="lightbox-body">
+        <img id="lightbox-img" src="" alt="Enlarged preview" />
+        <div class="lightbox-caption" id="lightbox-caption"></div>
       </div>
     </div>
   </div>
